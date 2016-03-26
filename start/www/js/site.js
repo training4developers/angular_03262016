@@ -18,6 +18,11 @@
 					url: "/widgets/:widgetId",
 					controller: "ViewCtrl",
 					templateUrl: "/tpls/view-widget.tpl"
+				})
+				.state("edit", {
+					url: "/widgets/:widgetId/edit",
+					controller: "EditCtrl",
+					templateUrl: "/tpls/edit-widget.tpl"
 				});
 
 		})
@@ -64,6 +69,16 @@
 			$scope.widgets = widgets.getAll();
 		})
 		.controller("ViewCtrl", function($scope, widgets, $stateParams, $state) {
+
+			$scope.widget = widgets.get(parseInt($stateParams.widgetId, 10));
+
+			$scope.returnToList = function() {
+				//$location.path("/");
+				$state.go("home");
+			}
+
+		})
+		.controller("EditCtrl", function($scope, widgets, $stateParams, $state) {
 
 			$scope.widget = widgets.get(parseInt($stateParams.widgetId, 10));
 

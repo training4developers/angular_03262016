@@ -16,7 +16,9 @@
 			<td>{{widget.color}}</td>
 			<td>{{widget.size}}</td>
 			<td>{{widget.quantity}}</td>
-			<td><a ui-sref='view({ widgetId: widget.id})'>View</a></td>
+			<td>
+				<a ui-sref='view({ widgetId: widget.id})'>View</a> |
+				<a ui-sref='edit({ widgetId: widget.id})'>Edit</a>
 		</tr>
 	</tbody>
 </table>
