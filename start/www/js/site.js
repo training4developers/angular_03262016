@@ -53,14 +53,48 @@
 				{ "id": 4, "name": "Tiny Orange Widget", "description": "A tiny, orange widget.", "color": "orange", "size": "tiny",   "quantity": 10 }
 			];
 
+			function getWidget(widgetId) {
+				return widgets.filter(function(widget) {
+			 		return widget.id === widgetId;
+			 	})[0]
+			}
+
+			function getWidgetIndex(widgetId) {
+				return widgets.indexOf(getWidget(widgetId));
+			}
+
 			return {
 				getAll: function(options) {
 					return widgets;
 				},
 				get: function(widgetId) {
-					return widgets.filter(function(widget) {
-						return widget.id === widgetId;
-					})[0];
+					return getWidget(widgetId);
+				},
+				insert: function(widget) {
+
+				},
+				update: function(widget) {
+					var oldWidget = widgets.splice(getWidgetIndex(widget.id), 1);
+					widgets.push(widget);
+				},
+				delete: function(widgetId) {
+					widgets.splice(getWidgetIndex(widgetId), 1);
+				},
+				getColors: function() {
+					return [
+						{ code: "blue", label: "Blue", category: "Discount" },
+						{ code: "green", label: "Green", category: "Premium" },
+						{ code: "red", label: "Red", category: "Discount" },
+						{ code: "orange", label: "Orange", category: "Premium" }
+					];
+				},
+				getSizes: function() {
+					return [
+						{ code: "tiny", label: "Tiny" },
+						{ code: "small", label: "Small" },
+						{ code: "medium", label: "Medium" },
+						{ code: "large", label: "Large" },
+					]
 				}
 			}
 
@@ -81,6 +115,21 @@
 		.controller("EditCtrl", function($scope, widgets, $stateParams, $state) {
 
 			$scope.widget = widgets.get(parseInt($stateParams.widgetId, 10));
+
+			$scope.widgetColors = widgets.getColors();
+			$scope.widgetSizes = widgets.getSizes();
+
+			$scope.saveWidget = function() {
+				widgets.update($scope.widget);
+				$state.go("home");
+			};
+
+			$scope.deleteWidget = function() {
+				if (confirm("Are you really really really sure you want to delete this widget?")) {
+					widgets.delete($scope.widget.id);
+					$state.go("home");
+				}
+			};
 
 			$scope.returnToList = function() {
 				//$location.path("/");
