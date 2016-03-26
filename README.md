@@ -1,4 +1,4 @@
-# Welcome to Introduction to Angular.js!
+# Welcome to Advanced Angular.js!
 
 ## Overview
 
