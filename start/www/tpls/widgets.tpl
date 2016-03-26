@@ -16,7 +16,7 @@
 			<td>{{widget.color}}</td>
 			<td>{{widget.size}}</td>
 			<td>{{widget.quantity}}</td>
-			<td><a ng-href='#/widgets/{{widget.id}}'>View</a></td>
+			<td><a ui-sref='view({ widgetId: widget.id})'>View</a></td>
 		</tr>
 	</tbody>
 </table>

@@ -2,25 +2,43 @@
 
 	"use strict";
 
-	angular.module("WidgetApp", ["ngRoute"])
-		.config(function($routeProvider, $locationProvider) {
+	angular.module("WidgetApp", ["ui.router"])
+		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
+			$urlRouterProvider.otherwise("/");
 			//$locationProvider.html5Mode(true);
 
-			$routeProvider
-				.when("/", {
+			$stateProvider
+				.state("home", {
+					url: "/",
 					controller: "HomeCtrl",
 					templateUrl: "/tpls/widgets.tpl"
 				})
-				.when("/widgets/:widgetId", {
+				.state("view", {
+					url: "/widgets/:widgetId",
 					controller: "ViewCtrl",
 					templateUrl: "/tpls/view-widget.tpl"
-				})
-				.otherwise({
-					redirectTo: "/"
 				});
 
 		})
+		//.config(function($routeProvider, $locationProvider) {
+		//
+		// 	//$locationProvider.html5Mode(true);
+		//
+		// 	$routeProvider
+		// 		.when("/", {
+		// 			controller: "HomeCtrl",
+		// 			templateUrl: "/tpls/widgets.tpl"
+		// 		})
+		// 		.when("/widgets/:widgetId", {
+		// 			controller: "ViewCtrl",
+		// 			templateUrl: "/tpls/view-widget.tpl"
+		// 		})
+		// 		.otherwise({
+		// 			redirectTo: "/"
+		// 		});
+		//
+		// })
 		.factory("widgets", function() {
 
 			var widgets = [
@@ -45,12 +63,13 @@
 		.controller("HomeCtrl", function($scope, widgets) {
 			$scope.widgets = widgets.getAll();
 		})
-		.controller("ViewCtrl", function($scope, widgets, $routeParams, $location) {
+		.controller("ViewCtrl", function($scope, widgets, $stateParams, $state) {
 
-			$scope.widget = widgets.get(parseInt($routeParams.widgetId, 10));
+			$scope.widget = widgets.get(parseInt($stateParams.widgetId, 10));
 
 			$scope.returnToList = function() {
-				$location.path("/");
+				//$location.path("/");
+				$state.go("home");
 			}
 
 		});
