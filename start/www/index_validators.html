@@ -15,31 +15,15 @@
 
 		<main ng-app="WidgetApp" class="container">
 			<div ng-controller="HomeCtrl">
-				<table>
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Description</th>
-							<th>Color</th>
-							<th>Size</th>
-							<th>Qty</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="widget in widgets">
-							<td>{{widget.name}}</td>
-							<td>{{widget.description}}</td>
-							<td>{{widget.color}}</td>
-							<td>{{widget.size}}</td>
-							<td>{{widget.quantity}}</td>
-						</tr>
-					</tbody>
-				</table>
+				{{message}}
+
+				<form name="testForm">
+					<label>Name: <input ng-model="person.name" t4d-required></label>
+				</form>
 
 			</div>
 		</main>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
 		<script src="js/ng/angular.js"></script>
 		<script src="js/ng/angular-animate.js"></script>
 		<script src="js/ng/angular-sanitize.js"></script>
