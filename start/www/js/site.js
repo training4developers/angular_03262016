@@ -14,6 +14,11 @@
 					controller: "HomeCtrl",
 					templateUrl: "/tpls/widgets.tpl"
 				})
+				.state("create", {
+					url: "/widgets/create",
+					controller: "EditCtrl",
+					templateUrl: "/tpls/edit-widget.tpl"
+				})
 				.state("view", {
 					url: "/widgets/:widgetId",
 					controller: "ViewCtrl",
@@ -63,6 +68,8 @@
 				return widgets.indexOf(getWidget(widgetId));
 			}
 
+			var nextId = 10;
+
 			return {
 				getAll: function(options) {
 					return widgets;
@@ -71,7 +78,8 @@
 					return getWidget(widgetId);
 				},
 				insert: function(widget) {
-
+					widget.id = nextId++;
+					widgets.push(widget);
 				},
 				update: function(widget) {
 					var oldWidget = widgets.splice(getWidgetIndex(widget.id), 1);
@@ -99,8 +107,13 @@
 			}
 
 		})
-		.controller("HomeCtrl", function($scope, widgets) {
+		.controller("HomeCtrl", function($scope, widgets, $state) {
 			$scope.widgets = widgets.getAll();
+
+			$scope.createWidget = function() {
+				$state.go("create");
+			};
+
 		})
 		.controller("ViewCtrl", function($scope, widgets, $stateParams, $state) {
 
@@ -114,13 +127,29 @@
 		})
 		.controller("EditCtrl", function($scope, widgets, $stateParams, $state) {
 
-			$scope.widget = widgets.get(parseInt($stateParams.widgetId, 10));
+			if ($stateParams.widgetId) {
+				var originalWidget = widgets.get(parseInt($stateParams.widgetId, 10));
+				// shallow copy (mixin pattern, Object.assign)
+				//$scope.widget = angular.extend({},originalWidget);
+				// deep copy
+				$scope.widget = angular.copy(originalWidget);
+
+				// console.dir($scope.widget);
+				// console.dir(originalWidget);
+				// console.log($scope.widget === originalWidget);
+			} else {
+				$scope.widget = {};
+			}
 
 			$scope.widgetColors = widgets.getColors();
 			$scope.widgetSizes = widgets.getSizes();
 
 			$scope.saveWidget = function() {
-				widgets.update($scope.widget);
+				if ($scope.widget.id) {
+					widgets.update($scope.widget);
+				} else {
+					widgets.insert($scope.widget);
+				}
 				$state.go("home");
 			};
 

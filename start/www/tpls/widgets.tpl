@@ -22,3 +22,4 @@
 		</tr>
 	</tbody>
 </table>
+<button ng-click="createWidget()">Create Widget</button>
