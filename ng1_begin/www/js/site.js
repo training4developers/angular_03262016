@@ -3,6 +3,31 @@
 	"use strict";
 
 	angular.module("WidgetApp", [])
+		.directive("capClick", function() {
+
+			return {
+				restrict: "A",
+				scope: {
+					clickHandler: "&capClick"
+				},
+				link: function($scope, $element) {
+
+					function clickHandler() {
+						$scope.$apply(function() {
+							$scope.clickHandler();
+						});
+					}
+
+					$element.on("click", clickHandler);
+
+					$scope.$on("$destroy", function() {
+						$element.off("click", clickHandler);
+					});
+
+				}
+			}
+
+		})
 		.directive("myDir", function($rootScope) {
 
 			// directive definition object
@@ -28,6 +53,7 @@
 			$rootScope.outsideMessage = "Hi Class!";
 
 			$rootScope.doIt = function() {
+				$rootScope.outsideMessage += "did it!";
 				console.log("did it!");
 			}
 		});
