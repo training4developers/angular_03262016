@@ -8,7 +8,7 @@ describe("home controller", function() {
 
 		mockScope = $rootScope.$new();
 
-		$controller("HomeCtrl", {
+		$controller("DemoCtrl", {
 			$scope: mockScope
 		});
 

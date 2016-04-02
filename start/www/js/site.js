@@ -161,6 +161,9 @@
 		// 	}
 		//
 		// })
+		.controller("DemoCtrl", function($scope) {
+			$scope.message = "Widgets Application";
+		})
 		.controller("HomeCtrl", function($scope, widgetsData, $state) {
 
 			// synchronous coding
