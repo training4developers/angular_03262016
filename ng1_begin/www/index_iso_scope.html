@@ -14,7 +14,20 @@
 	<body>
 
 		<main ng-app="WidgetApp">
-			<input ng-model="message" cap-required>
+
+			<!-- Create the following directive... -->
+			<button cap-click="doIt()">Do It!</button>
+
+			<!-- Rules -->
+			<!-- 1. You cannot use a template in the directive -->
+			<!-- 2. You cannot use ng-click -->
+			<!-- 3. Use DOM manipulation to wire and unwire the event handlers as appropriate -->
+			<!-- 4. Use isolated scope -->
+
+
+
+			Root: {{outsideMessage}}, {{$id}}
+			<div my-dir two-way="outsideMessage" one-way="{{outsideMessage | uppercase}}" func="doIt()"></div>
 		</main>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>

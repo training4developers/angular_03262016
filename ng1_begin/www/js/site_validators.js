@@ -3,36 +3,52 @@
 	"use strict";
 
 	angular.module("WidgetApp", [])
-		.directive("t4dRequired", function($q) {
+		.directive("capRequired", function($q) {
 
 			return {
 
 				require: "ngModel",
 				link: function(scope,element,attrs,ctrl) {
 
-					ctrl.$validators.required = function(modelValue, viewValue) {
+					// function validator(value) {
+					//
+					// 	if (value == null || String(value) === "") {
+					// 		ctrl.$setValidity("cap-required", false);
+					// 		return;
+					// 	} else {
+					// 		ctrl.$setValidity("cap-required", true);
+					// 		return value;
+					// 	}
+					//
+					// }
+					//
+					// ctrl.$parsers.push(validator);
+					// ctrl.$formatters.push(validator);
 
-						console.log("model value: " + modelValue);
-						console.log("view value: " + viewValue);
+					// ctrl.$validators.capRequired = function(modelValue, viewValue) {
+					// 	if (viewValue == null || String(viewValue) === "") {
+					// 		return false;
+					// 	} else {
+					// 		return true;
+					// 	}
+					// };
 
-						return true;
-					}
-
-					ctrl.$asyncValidators.requiredAsync = function(modelValue, viewValue) {
+					ctrl.$asyncValidators.capRequiredAsync = function(modelValue, viewValue) {
 
 						return $q(function(resolve, reject) {
 
 							setTimeout(function() {
-								console.log("async model value: " + modelValue);
-								console.log("async view value: " + viewValue);
-								resolve();
-							}, 1000);
+								if (viewValue == null || String(viewValue) === "") {
+									reject();
+								} else {
+									resolve();
+								}
+							}, 3000);
 
 						});
 
-
 						return true;
-					}
+					};
 
 				}
 
