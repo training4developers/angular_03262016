@@ -1,13 +1,14 @@
 (function(angular) {
-	
+
 	"use strict";
 
-	service.$inject = ["$http", "WIDGET_API_URL"];
+	service.$inject = ["$http", "WIDGET_API_URL", "$q"];
 
-	function service($http, WIDGET_API_URL) {
+	function service($http, WIDGET_API_URL, $q) {
 
 		return {
 			getAll: function() {
+				//return $q.when({ data: [{},{}] });
 				return $http.get(WIDGET_API_URL);
 			},
 			get: function(widgetId) {

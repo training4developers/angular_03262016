@@ -14,7 +14,17 @@
 	<body>
 
 		<main ng-app="WidgetApp">
-			<input ng-model="message" cap-required>
+			{{message}}
+			<span ng-bind-html="message"></span>
+			<div ng-controller="shipmentCtrl">
+				<div ng-controller="shipperCtrl">
+					<input ng-model="shipment.shipper.shipperId" verify-shipper>
+				</div>
+				<div ng-controller="receiverCtrl">
+					<input ng-model="shipment.receiver.shipperName" authorized-shipper>
+				</div>
+			</div>
+
 		</main>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
