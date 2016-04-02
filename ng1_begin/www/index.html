@@ -12,19 +12,10 @@
 	</head>
 
 	<body>
-		<main ng-app="WidgetApp">
-			<!-- Directive Marker -->
-			<div list-of-items="colors"></div>
-			<div list-of-items-jquery="colors"></div>
-			<!-- Output -->
-			<!-- <div list-of-items="colors">
-				<ul>
-					<li>Item 1</li>
-					<li>Item 2</li>
-					<li>Item 3</li>
-				</ul>
-			</div> -->
 
+		<main ng-app="WidgetApp">
+			Root: {{outsideMessage}}, {{$id}}
+			<div my-dir two-way="outsideMessage" one-way="{{outsideMessage | uppercase}}" func="doIt()"></div>
 		</main>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
