@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Welcome to Angular.js!</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+	</head>
+
+	<body>
+		<div ng-app="MyApp">
+
+			Show Me: <input type="checkbox" ng-model="showMe"><br>
+			<div ng-if="showMe">
+
+				<ul>
+					<li thf-repeat="color in colors | orderBy:'toString()'">{{color}}</li>
+				</ul>
+				<table>
+					<tr thf-repeat="car in cars">
+						<td>{{car.make}}</td>
+						<td>{{car.model}}</td>
+						<td>{{car.year}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", [])
+				.directive("thfRepeat", function() {
+
+					return {
+						transclude: 'element',
+						compile: function(tElement, tAttrs) {
+
+							var tokens = tAttrs.thfRepeat.split(" ");
+							var itemName = tokens[0];
+							var collectionName = tokens[2];
+							var collectionExp = tokens.splice(2).join(" ");
+							console.log(collectionExp);
+
+							return function(scope, element, attrs, ctrl, transclude) {
+
+								var listElements = [];
+
+								function cleanUp() {
+									listElements.forEach(function(listElement) {
+										angular.element(listElement).scope().$destroy();
+										listElement.remove();
+									});
+									listElements = [];
+								}
+
+								scope.$watchCollection(collectionName,
+									function(newCollection, oldCollection, scope) {
+
+
+
+										cleanUp();
+
+										var lastElement = element;
+
+										scope.$eval(collectionExp).forEach(function(item) {
+											var childScope = scope.$new();
+											childScope[itemName] = item;
+											transclude(childScope, function(clone) {
+												lastElement.after(clone);
+												lastElement = clone;
+												listElements.push(clone);
+											});
+
+
+										});
+									});
+
+									scope.$on("$destroy", cleanUp);
+
+
+
+							};
+						}
+					};
+
+				})
+				.run(function($rootScope, $timeout) {
+					$rootScope.colors = ["red","green","white","blue","saffron"];
+
+					$timeout(function() {
+						$rootScope.colors.push("black");
+						console.dir($rootScope.colors);
+					}, 3000);
+
+					$rootScope.cars = [
+						{ make: "Ford", model: "Fusion", year: 1997 },
+						{ make: "Tesla", model: "S", year: 2015 },
+						{ make: "Toyota", model: "Yaris", year: 2011 }
+					];
+
+				});
+
+		</script>
+
+	</body>
+</html>

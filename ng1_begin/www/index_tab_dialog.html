@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Welcome to Angular.js!</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></script>
+		<style>
+
+			.tabs ul {
+				list-style:none;
+				list-style-position: inside;
+				margin:0;
+				padding:0;
+			}
+
+			.tabs ul li {
+				display: inline-block;
+				border:2px solid black;
+				margin:0;
+				padding:5px;
+			}
+
+			.tabs ul li.active {
+				border:2px solid blue;
+			}
+
+			.tabs > div {
+				border:2px solid blue;
+			}
+
+
+		</style>
+	</head>
+
+	<body>
+		<div ng-app="MyApp">
+			<tabs active-tab-id="tab2">
+				<tab tab-id="tab1" tab-caption="Tab 1">Tab 1 Content...</tab>
+				<tab tab-id="tab2" tab-caption="Tab 2"><b>Tab 2 Content...</b></tab>
+				<tab tab-id="tab3" tab-caption="Tab 3">Tab 3 Content...</tab>
+				<tab tab-id="tab4" tab-caption="Tab 4">Tab 4 Content...</tab>
+			</tabs>
+		</div>
+
+		<script>
+
+			angular.module("MyApp", ["ngSanitize"])
+				.controller("tabsController", function($scope) {
+
+					this.addTab = function(tabId, tabCaption, tabContent) {
+
+						$scope.tabs.push({
+							tabId: tabId,
+							tabCaption: tabCaption,
+							tabContent: tabContent
+						});
+
+					};
+
+				})
+				.directive("tabs", function($compile) {
+
+					return {
+						controller: "tabsController",
+						compile: function() {
+
+							return {
+								pre: function(scope, element, attrs) {
+
+									scope.tabs = [];
+
+									scope.activeTabId = attrs.activeTabId;
+
+									scope.setActiveTabId = function(tabId) {
+										scope.activeTabId = tabId;
+									};
+
+								},
+								post: function(scope, element, attrs) {
+
+									var tpl = "<div class='tabs'><ul><li ng-repeat='tab in tabs' ng-class='{active:activeTabId === tab.tabId}' ng-click='setActiveTabId(tab.tabId)'>{{tab.tabCaption}}</li></ul>";
+									tpl += "<div ng-repeat='tab in tabs' ng-if='activeTabId === tab.tabId' ng-bind-html='tab.tabContent'></div></div>"
+									// var linkingFn = $compile(tpl);
+									// var domElements = linkingFn(scope);
+									// element.append(domElements);
+
+									element.empty().append($compile(tpl)(scope));
+								}
+							}
+
+						}
+					};
+
+				})
+				.directive("tab", function() {
+
+					return {
+						require: "^^tabs",
+						link: function(scope, element, attrs, ctrl) {
+							ctrl.addTab(attrs.tabId, attrs.tabCaption, element.html());
+						}
+					};
+
+				});
+
+		</script>
+
+	</body>
+</html>
