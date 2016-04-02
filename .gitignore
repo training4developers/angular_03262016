@@ -31,3 +31,9 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+ng2_begin/app/*.js
+ng2_begin/app/*.js.map
+
+ng2_finish/app/*.js
+ng2_finish/app/*.js.map
