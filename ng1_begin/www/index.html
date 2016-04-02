@@ -9,34 +9,22 @@
 		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
 		<link href="css/site.css" rel="stylesheet">
 		<base href="/">
-		<style>
-
-			main.ng-scope, div.ng-scope {
-				border:2px solid red;
-				margin:5px;
-				padding:5px;
-			}
-		</style>
 	</head>
 
 	<body>
+		<main ng-app="WidgetApp">
+			<!-- Directive Marker -->
+			<div list-of-items="colors"></div>
+			<div list-of-items-jquery="colors"></div>
+			<!-- Output -->
+			<!-- <div list-of-items="colors">
+				<ul>
+					<li>Item 1</li>
+					<li>Item 2</li>
+					<li>Item 3</li>
+				</ul>
+			</div> -->
 
-		<main ng-app="WidgetApp" class="container">
-			{{$id}}
-			<div ng-controller="Child1Ctrl">
-				{{$id}}<br>
-			</div>
-			<div ng-controller="Child2Ctrl">
-				{{$id}}<br>
-			</div>
-			<div ng-controller="Child3Ctrl">
-				{{$id}}<br>
-				Update Source: <span id="update-source"></span><br>
-				My Message: <span id="my-message"></span><br>
-				Message: {{message}}<br>
-				Message Input 1: <input id="input-1" which-component ng-model="message"><br>
-				Message Input 2: <input id="input-2" which-component ng-model="message">
-			</div>
 		</main>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
