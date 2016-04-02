@@ -32,8 +32,11 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+# will be installed with npm install
+typings
+
+# no need to commit typescript js and map output
 ng2_begin/app/*.js
 ng2_begin/app/*.js.map
-
 ng2_finish/app/*.js
 ng2_finish/app/*.js.map
